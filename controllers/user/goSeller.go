@@ -9,15 +9,25 @@ import (
 )
 
 func UpdateToSeller(c *gin.Context) {
-	userId, _ := c.Get("currentuser")
-	objId, _ := bson.ObjectIDFromHex(userId.(string))
+	val, exists := c.Get("currentuser")
+	if !exists {
+		c.JSON(401, gin.H{"error": "Login dong"})
+		return
+	}
+
+	userId := val.(string)
+	objId, err := bson.ObjectIDFromHex(userId)
+
+	if err != nil {
+		c.JSON(400, gin.H{"error": "Format ID tidak valid"})
+		return
+	}
 
 	filter := bson.M{"_id": objId}
 	update := bson.M{
 		"$set": bson.M{"seller_status": "pending"},
 	}
-
-	_, err := config.UserCollection.UpdateOne(context.TODO(), filter, update)
+	_, err = config.UserCollection.UpdateMany(context.TODO(), filter, update)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error": "gagal mengajikan menjadi seller",

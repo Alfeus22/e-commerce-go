@@ -12,9 +12,9 @@ var secretKey = []byte("secretbos")
 
 func GenerateToken(userID bson.ObjectID, role models.UserRole) (string, error) {
 	claims := jwt.MapClaims{
-		"seller_id": userID.Hex(),
-		"role":      role,
-		"exp":       time.Now().Add(time.Hour * 24).Unix(),
+		"_id":  userID.Hex(),
+		"role": role,
+		"exp":  time.Now().Add(time.Hour * 24).Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

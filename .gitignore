@@ -1,1 +1,7 @@
+*.exe
+/bin/
+
+# Folder dependensi
+
+# file konfigurasi rahasia 
 *.env
