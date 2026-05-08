@@ -59,7 +59,7 @@ func Login(ctx *gin.Context) {
 	// cari by username
 	err := config.UserCollection.FindOne(context.TODO(), filter).Decode(&foundUser)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "usernae tidak ditemukan"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "username tidak ditemukan"})
 		return
 	}
 

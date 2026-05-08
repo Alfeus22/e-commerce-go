@@ -43,8 +43,9 @@ func SetupProductRoutes(r *gin.Engine) {
 	adminRoutes.Use(auth.AuthMiddleware())
 	adminRoutes.Use(auth.RoleMiddleware("admin"))
 	{
+		adminRoutes.GET("/showSeller", admin.GetSeller)
 		adminRoutes.GET("/pending-seller", admin.GetPendingSeller)
-		adminRoutes.POST("/deleteSeller/:id")
+		adminRoutes.DELETE("/deleteSeller/:id", admin.DeleteSeller)
 		adminRoutes.PUT("/updateUser/:id", admin.UpdateUser)
 	}
 
