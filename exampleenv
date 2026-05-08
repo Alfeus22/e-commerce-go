@@ -1,0 +1,16 @@
+# Server Configuration
+PORT=8080
+GIN_MODE=debug
+
+# Database Configuration
+# Ganti dengan URI MongoDB kamu sendiri
+MONGO_URI=mongodb://localhost:27017
+DB_NAME=ecommerce_db
+
+# JWT Configuration
+# Gunakan string acak yang kuat untuk produksi
+JWT_SECRET=rahasia_sangat_rahasia
+JWT_EXPIRATION=24h
+
+# Admin Initial Config (Opsional)
+ADMIN_EMAIL=admin@mail.com

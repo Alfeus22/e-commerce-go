@@ -14,7 +14,7 @@ const (
 )
 
 type User struct {
-	ID                   bson.ObjectID `bson:"user_id,omitempty" json:"user_id,omitempty"`
+	ID                   bson.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
 	Username             string        `bson:"username" json:"username" binding:"required"`
 	Password             string        `bson:"password" json:"password" binding:"required,min=6"`
 	Email                string        `bson:"email" json:"email" binding:"required,email"`

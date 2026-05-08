@@ -40,9 +40,14 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if ok && token.Valid {
-			// CEK LAGI: Apakah saat login kamu pakai key "seller_id" atau "sub"?
-			// Jika ragu, print claims-nya: fmt.Println(claims)
-			userID, _ := claims["seller_id"].(string)
+			userID, ok := claims["_id"].(string)
+
+			if !ok {
+				fmt.Print("Gagal mengambil id user dari token")
+				c.JSON(400, gin.H{"error": "tken cacat : ID user tidak ditemukan"})
+				c.Abort()
+				return
+			}
 
 			c.Set("currentuser", userID)
 			c.Set("role", claims["role"])

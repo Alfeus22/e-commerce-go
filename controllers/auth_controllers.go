@@ -25,13 +25,18 @@ func Register(ctx *gin.Context) {
 	user.Password = string(bytes)
 
 	// create
+
+	user.Role = "customer"
+	user.SellerStatus = "none"
 	_, err := config.UserCollection.InsertOne(context.TODO(), user)
 	if err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	ctx.JSON(201, gin.H{"message ": "user berhasil dibuat"})
+	ctx.JSON(201, gin.H{
+		"message ": "user berhasil dibuat",
+	})
 
 }
 
@@ -54,7 +59,7 @@ func Login(ctx *gin.Context) {
 	// cari by username
 	err := config.UserCollection.FindOne(context.TODO(), filter).Decode(&foundUser)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "usernae tidak ditemukan"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "username tidak ditemukan"})
 		return
 	}
 
@@ -72,5 +77,6 @@ func Login(ctx *gin.Context) {
 	ctx.JSON(200, gin.H{
 		"message": "Berhasil Login",
 		"token :": token,
+		"role":    foundUser.Role,
 	})
 }
