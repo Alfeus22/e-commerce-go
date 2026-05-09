@@ -99,3 +99,34 @@ func DeleteProduct(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Product berhasil dihapus"})
 }
+
+func GetProduct(c *gin.Context) {
+	var product []models.Product
+	val, exists := c.Get("currentuser")
+
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Sesi tidak ditemukan"})
+		return
+	}
+	id := val.(string)
+	sellerID, err := bson.ObjectIDFromHex(id)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "id tidak ditemukan"})
+		return
+	}
+
+	filter := bson.M{"seller_id": sellerID}
+
+	cursor, err := config.ProductCollection.Find(context.TODO(), filter)
+
+	if err != nil {
+		c.JSON(500, gin.H{"error": "tidak ditemukan"})
+		return
+	}
+	cursor.All(context.TODO(), &product)
+	c.JSON(200, gin.H{
+		"message": "berhasil mengirim data",
+		"data":    product,
+	})
+
+}
