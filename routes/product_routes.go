@@ -13,6 +13,7 @@ func SetupProductRoutes(r *gin.Engine) {
 	r.POST("/register", controllers.Register)
 	r.POST("/login", controllers.Login)
 	r.GET("/home")
+	r.GET("/detailProduct/:id", controllers.DetailProduct)
 
 	// AUTH user
 	userRoutes := r.Group("/user")
@@ -31,7 +32,7 @@ func SetupProductRoutes(r *gin.Engine) {
 	sellerRoutes := r.Group("/seller")
 
 	sellerRoutes.Use(auth.AuthMiddleware())
-	sellerRoutes.Use(auth.RoleMiddleware("SELLER"))
+	sellerRoutes.Use(auth.RoleMiddleware("seller"))
 	{
 		sellerRoutes.POST("/product", seller.MakeProduct)
 		sellerRoutes.DELETE("/product/:id")
