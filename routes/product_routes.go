@@ -12,7 +12,7 @@ import (
 func SetupProductRoutes(r *gin.Engine) {
 	r.POST("/register", controllers.Register)
 	r.POST("/login", controllers.Login)
-	r.GET("/home")
+	r.GET("/home", controllers.GetAllProduct)
 	r.GET("/detailProduct/:id", controllers.DetailProduct)
 
 	// AUTH user
