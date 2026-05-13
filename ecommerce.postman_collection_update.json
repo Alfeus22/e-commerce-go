@@ -1,0 +1,545 @@
+{
+  "info": {
+    "_postman_id": "a5982ee5-e2b4-4d7f-af54-468c8aa2993b",
+    "name": "ecommerce",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51783114",
+    "_collection_link": "https://go.postman.co/collection/51783114-a5982ee5-e2b4-4d7f-af54-468c8aa2993b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "RahasiaTod",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"test\",\r\n    \"password\": \"123456\",\r\n    \"email\": \"test@gmail.com\"\r\n    \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Nzc0NjM5NTEsInVzZXJfaWQiOiI2OWYwOTUyODZmNGUxYTI2ZmJhZjdjNGEifQ.P7-4UNlhVer06pGqM8gUou_vocmJUHDD97D9rgL4tZQ",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "secretbos",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"test\",\r\n    \"password\": \"123456\",\r\n    \"email\":\"test@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "register"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Controller",
+      "item": [
+        {
+          "name": "admin",
+          "item": [
+            {
+              "name": "getSellerByAdmin",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWZjZDg1MTVkMzM4YWI3NWFlNWM3Y2MiLCJleHAiOjE3Nzg0NDQ2OTMsInJvbGUiOiJhZG1pbiJ9.6kl1j28KrsLv2JGDY5neCkVPb1OMDjvnqMUm_G1_bXs",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "secretbos",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:8080/admin/showSeller",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "admin",
+                    "showSeller"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "updateCustomerToSeller",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWZjZDg1MTVkMzM4YWI3NWFlNWM3Y2MiLCJleHAiOjE3Nzg0NDQ2OTMsInJvbGUiOiJhZG1pbiJ9.6kl1j28KrsLv2JGDY5neCkVPb1OMDjvnqMUm_G1_bXs",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "secretbos",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/admin/updateUser/69ff8b43b323e41780c9e105",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "admin",
+                    "updateUser",
+                    "69ff8b43b323e41780c9e105"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "getPendingSeller",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWZjZDg1MTVkMzM4YWI3NWFlNWM3Y2MiLCJleHAiOjE3Nzg0NDQ2OTMsInJvbGUiOiJhZG1pbiJ9.6kl1j28KrsLv2JGDY5neCkVPb1OMDjvnqMUm_G1_bXs",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "secretbos",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/admin/pending-seller",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "admin",
+                    "pending-seller"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Seller",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWZjZDg1MTVkMzM4YWI3NWFlNWM3Y2MiLCJleHAiOjE3NzgzMTA1ODAsInJvbGUiOiJhZG1pbiJ9.3JTKww_N_Nh-lorITBKxAQUZTswAIRF8nbM7JkeHSdw",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "secretbos",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/admin/deleteSeller/69fcd7915d338ab75ae5c7cb",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "admin",
+                    "deleteSeller",
+                    "69fcd7915d338ab75ae5c7cb"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "seller",
+          "item": [
+            {
+              "name": "add Tasks",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWZjZWI3NmE0ZTAxZGI4N2U3NTg5NmMiLCJleHAiOjE3Nzg0NDIzODcsInJvbGUiOiJzZWxsZXIifQ.ziZhTznqu91bHPZfYGsLqSdFbmzmN25ZUwQF-PZvzNE",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "secretbos",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"bass\",\r\n    \"stock\": 10,\r\n    \"image_url\": \"http://image.com\",\r\n    \"price\": 2000000,\r\n    \"desc\": \"Bass Baru Beli\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/seller/product",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "seller",
+                    "product"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GetProductbySeller",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWZmOGI0M2IzMjNlNDE3ODBjOWUxMDUiLCJleHAiOjE3Nzg0NDQ4NDgsInJvbGUiOiJzZWxsZXIifQ.SjXRv8Nz2pf_5fF5aNQVdTG_-JoGNg61GqJrR-6GKmQ",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "secretbos",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/seller/product",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "seller",
+                    "product"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DeleteProduct",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            },
+            {
+              "name": "UpdateProduct",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWZjZWI3NmE0ZTAxZGI4N2U3NTg5NmMiLCJleHAiOjE3Nzg1MzA2NzMsInJvbGUiOiJzZWxsZXIifQ.c8bTLYm44KN1bwcfSOQrYRbQe7dOHJrFH-F_GRaoQWk",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "user",
+          "item": [
+            {
+              "name": "Update Tasks",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWZmOGI0M2IzMjNlNDE3ODBjOWUxMDUiLCJleHAiOjE3Nzg0NDQ0MDMsInJvbGUiOiJjdXN0b21lciJ9.2_Z9-Wk_QiApMFe4pegBthFQRR7d07j-7XK1xyI1d4g",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "secretbos",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\": \"cahyono\",\r\n    \"password\": \"password4321\"\r\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/user/toSeller",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "user",
+                    "toSeller"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "guest",
+          "item": [
+            {
+              "name": "GetDetailProduct",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWZmOGI0M2IzMjNlNDE3ODBjOWUxMDUiLCJleHAiOjE3Nzg0NDE0NTIsInJvbGUiOiJjdXN0b21lciJ9.3LGs4XsFitvWKm-hCwvOXO9mmFwY4LGXYijysHvl6Pk",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "secretbos",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/detailProduct/69fc95652b41fb8c5dd26e79",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "detailProduct",
+                    "69fc95652b41fb8c5dd26e79"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GetAllProduct",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWZjZWI3NmE0ZTAxZGI4N2U3NTg5NmMiLCJleHAiOjE3Nzg0NDIzODcsInJvbGUiOiJzZWxsZXIifQ.ziZhTznqu91bHPZfYGsLqSdFbmzmN25ZUwQF-PZvzNE",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "secretbos",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"bass\",\r\n    \"stock\": 10,\r\n    \"image_url\": \"http://image.com\",\r\n    \"price\": 2000000,\r\n    \"desc\": \"Bass Baru Beli\"\r\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/home",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "home"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
