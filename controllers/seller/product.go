@@ -130,3 +130,49 @@ func GetProduct(c *gin.Context) {
 	})
 
 }
+
+func EditProduct(c *gin.Context) {
+	// ambil id parameter
+	productId := c.Param("id")
+	objProductID, _ := bson.ObjectIDFromHex(productId)
+
+	// ambil id seller
+	val, _ := c.Get("currentuser")
+	userID := val.(string)
+	objUserID, _ := bson.ObjectIDFromHex(userID)
+
+	// tangkap data baru
+	var updateData models.Product
+	if err := c.ShouldBindJSON(&updateData); err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	// validasi edit product sendiri
+	filter := bson.M{
+		"_id":       objProductID,
+		"seller_id": objUserID,
+	}
+
+	update := bson.M{
+		"$set": bson.M{
+			"name":        updateData.Name,
+			"price":       updateData.Price,
+			"description": updateData.Desc,
+			"stock":       updateData.Stock,
+		},
+	}
+
+	result, err := config.ProductCollection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	if result.MatchedCount == 0 {
+		c.JSON(403, gin.H{"error": "anda tidak punya akses atau produk tidak ditemukan"})
+		return
+	}
+	c.JSON(200, gin.H{"message": "berhasil update data"})
+
+}

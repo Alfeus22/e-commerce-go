@@ -8,9 +8,15 @@ import (
 	"github.com/Alfeus22/ecommerce-go/routes"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Erro Loading .env file")
+	}
+
 	config.ConnectDB()
 	r := gin.Default()
 
