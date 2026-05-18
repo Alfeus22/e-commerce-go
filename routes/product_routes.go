@@ -14,6 +14,7 @@ func SetupProductRoutes(r *gin.Engine) {
 	r.POST("/login", controllers.Login)
 	r.GET("/home", controllers.GetAllProduct)
 	r.GET("/detailProduct/:id", controllers.DetailProduct)
+	r.POST("/api/notification/payment", user.HandleMidtransNotification)
 
 	// AUTH user
 	userRoutes := r.Group("/user")
@@ -21,9 +22,7 @@ func SetupProductRoutes(r *gin.Engine) {
 	userRoutes.Use(auth.AuthMiddleware())
 	userRoutes.Use(auth.RoleMiddleware("customer"))
 	{
-		userRoutes.POST("/transaction")
-		userRoutes.GET("/product/:id")
-		userRoutes.GET("/order")
+		userRoutes.POST("/transaction", user.CreateOrder)
 		userRoutes.PUT("/toSeller", user.UpdateToSeller)
 
 	}
@@ -34,10 +33,11 @@ func SetupProductRoutes(r *gin.Engine) {
 	sellerRoutes.Use(auth.AuthMiddleware())
 	sellerRoutes.Use(auth.RoleMiddleware("seller"))
 	{
-		sellerRoutes.POST("/product", seller.MakeProduct)
+		sellerRoutes.POST("/product/createProduct", seller.MakeProduct)
 		sellerRoutes.GET("/product", seller.GetProduct)
-		sellerRoutes.DELETE("/product/:id")
-		sellerRoutes.PUT("/product/:id")
+		sellerRoutes.POST("/product/image", seller.UploadImage)
+		sellerRoutes.DELETE("/product/:id", seller.DeleteProduct)
+		sellerRoutes.PUT("/product/:id", seller.EditProduct)
 	}
 
 	// AUTH ADMIN

@@ -2,7 +2,9 @@ package seller
 
 import (
 	"context"
+	"fmt"
 	"net/http"
+	"path/filepath"
 	"time"
 
 	"github.com/Alfeus22/ecommerce-go/config"
@@ -129,4 +131,83 @@ func GetProduct(c *gin.Context) {
 		"data":    product,
 	})
 
+}
+
+func EditProduct(c *gin.Context) {
+	// ambil id parameter
+	productId := c.Param("id")
+	objProductID, _ := bson.ObjectIDFromHex(productId)
+
+	// ambil id seller
+	val, _ := c.Get("currentuser")
+	userID := val.(string)
+	objUserID, _ := bson.ObjectIDFromHex(userID)
+
+	// tangkap data baru
+	var updateData models.Product
+	if err := c.ShouldBindJSON(&updateData); err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	// validasi edit product sendiri
+	filter := bson.M{
+		"_id":       objProductID,
+		"seller_id": objUserID,
+	}
+
+	update := bson.M{
+		"$set": bson.M{
+			"name":        updateData.Name,
+			"price":       updateData.Price,
+			"description": updateData.Desc,
+			"stock":       updateData.Stock,
+		},
+	}
+
+	result, err := config.ProductCollection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	if result.MatchedCount == 0 {
+		c.JSON(403, gin.H{"error": "anda tidak punya akses atau produk tidak ditemukan"})
+		return
+	}
+	c.JSON(200, gin.H{"message": "berhasil update data"})
+
+}
+
+func UploadImage(c *gin.Context) {
+	file, err := c.FormFile("image")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "File gambar wajib diisi"})
+		return
+	}
+	// validasi ijinkan hanya file berupa gambar
+	ext := filepath.Ext(file.Filename)
+	if ext != ".jpg" && ext != ".png" && ext != ".webp" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Format file harus beupa jpg, png, jpeg, atau webp"})
+		return
+	}
+	// modifikasi nama file agar unik (menggunakan timeStamp dan tidak tertimpa dengan file lama
+
+	fileName := fmt.Sprintf("%d%s", time.Now().UnixNano(), ext)
+
+	// tentukan jalur penyimpanan lokal
+	dst := filepath.Join("uploads", fileName)
+
+	// simpan file ke folder './uploads
+	if err := c.SaveUploadedFile(file, dst); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal Menyimpan gambar ke server"})
+		return
+	}
+
+	imageUrl := fmt.Sprintf("http://localhost:8080/uploads/%s", fileName)
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":   "Gambar berhasil diunggah",
+		"image_url": imageUrl,
+	})
 }

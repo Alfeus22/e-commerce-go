@@ -12,6 +12,7 @@ import (
 
 var UserCollection *mongo.Collection
 var ProductCollection *mongo.Collection
+var OrderCollection *mongo.Collection
 
 func ConnectDB() *mongo.Client {
 	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
@@ -32,5 +33,6 @@ func ConnectDB() *mongo.Client {
 	fmt.Print("Berhasil connect")
 	UserCollection = client.Database("e-commerce").Collection("users")
 	ProductCollection = client.Database("e-commerce").Collection("products")
+	OrderCollection = client.Database("e-commerce").Collection("orders")
 	return client
 }
