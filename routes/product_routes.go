@@ -33,8 +33,9 @@ func SetupProductRoutes(r *gin.Engine) {
 	sellerRoutes.Use(auth.AuthMiddleware())
 	sellerRoutes.Use(auth.RoleMiddleware("seller"))
 	{
-		sellerRoutes.POST("/product", seller.MakeProduct)
+		sellerRoutes.POST("/product/createProduct", seller.MakeProduct)
 		sellerRoutes.GET("/product", seller.GetProduct)
+		sellerRoutes.POST("/product/image", seller.UploadImage)
 		sellerRoutes.DELETE("/product/:id", seller.DeleteProduct)
 		sellerRoutes.PUT("/product/:id", seller.EditProduct)
 	}

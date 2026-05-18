@@ -2,7 +2,9 @@ package seller
 
 import (
 	"context"
+	"fmt"
 	"net/http"
+	"path/filepath"
 	"time"
 
 	"github.com/Alfeus22/ecommerce-go/config"
@@ -175,4 +177,37 @@ func EditProduct(c *gin.Context) {
 	}
 	c.JSON(200, gin.H{"message": "berhasil update data"})
 
+}
+
+func UploadImage(c *gin.Context) {
+	file, err := c.FormFile("image")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "File gambar wajib diisi"})
+		return
+	}
+	// validasi ijinkan hanya file berupa gambar
+	ext := filepath.Ext(file.Filename)
+	if ext != ".jpg" && ext != ".png" && ext != ".webp" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Format file harus beupa jpg, png, jpeg, atau webp"})
+		return
+	}
+	// modifikasi nama file agar unik (menggunakan timeStamp dan tidak tertimpa dengan file lama
+
+	fileName := fmt.Sprintf("%d%s", time.Now().UnixNano(), ext)
+
+	// tentukan jalur penyimpanan lokal
+	dst := filepath.Join("uploads", fileName)
+
+	// simpan file ke folder './uploads
+	if err := c.SaveUploadedFile(file, dst); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal Menyimpan gambar ke server"})
+		return
+	}
+
+	imageUrl := fmt.Sprintf("http://localhost:8080/uploads/%s", fileName)
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":   "Gambar berhasil diunggah",
+		"image_url": imageUrl,
+	})
 }
