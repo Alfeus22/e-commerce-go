@@ -41,25 +41,33 @@ func Register(ctx *gin.Context) {
 }
 
 func Login(ctx *gin.Context) {
-	var input models.User
+	var input struct {
+		Identity string `json:"identity" binding:"required"`
+		Password string `json:"password" binding:"required"`
+	}
 
-	if err := ctx.ShouldBindBodyWithJSON(&input); err != nil {
+	if err := ctx.ShouldBindJSON(&input); err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	if input.Username == "" || input.Password == "" {
+	if input.Identity == "" || input.Password == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Username dna paswword wajib diisi"})
 		return
 	}
 
 	var foundUser models.User
-	filter := bson.M{"username": input.Username}
+	filter := bson.M{
+		"$or": []bson.M{
+			{"username": input.Identity},
+			{"email": input.Identity},
+		},
+	}
 
-	// cari by username
+	// cari by username / email
 	err := config.UserCollection.FindOne(context.TODO(), filter).Decode(&foundUser)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "username tidak ditemukan"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "username/email tidak ditemukan"})
 		return
 	}
 
@@ -75,8 +83,9 @@ func Login(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(200, gin.H{
-		"message": "Berhasil Login",
-		"token :": token,
-		"role":    foundUser.Role,
+		"username": foundUser.Username,
+		"message":  "Berhasil Login",
+		"token :":  token,
+		"role":     foundUser.Role,
 	})
 }
