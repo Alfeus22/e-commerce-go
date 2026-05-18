@@ -396,6 +396,14 @@
                 "header": []
               },
               "response": []
+            },
+            {
+              "name": "UploadImage",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
             }
           ]
         },

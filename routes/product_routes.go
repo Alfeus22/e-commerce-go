@@ -14,6 +14,7 @@ func SetupProductRoutes(r *gin.Engine) {
 	r.POST("/login", controllers.Login)
 	r.GET("/home", controllers.GetAllProduct)
 	r.GET("/detailProduct/:id", controllers.DetailProduct)
+	r.GET("/search", controllers.SearchProduct)
 	r.POST("/api/notification/payment", user.HandleMidtransNotification)
 
 	// AUTH user

@@ -2,14 +2,20 @@ package controllers
 
 import (
 	"context"
+	"net/http"
 	"strconv"
 
 	"github.com/Alfeus22/ecommerce-go/config"
 	"github.com/Alfeus22/ecommerce-go/models"
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
+
+type Product struct {
+	ID primitive.ObjectID ``
+}
 
 func DetailProduct(c *gin.Context) {
 	idParam := c.Param("id")
@@ -89,6 +95,44 @@ func GetAllProduct(c *gin.Context) {
 			"total_pages":  (int(total) + limit - 1) / limit,
 		},
 		"data": product,
+	})
+
+}
+
+func SearchProduct(c *gin.Context) {
+	searchQuery := c.Query("name")
+
+	// filter
+	filter := bson.M{}
+	if searchQuery != "" {
+		// $regex: mencari potongan kata, $options: "i" agar tidak sensitif huruf besar/kecil
+		filter = bson.M{
+			"name": bson.M{
+				"$regex":   searchQuery,
+				"$options": "i",
+			},
+		}
+	}
+
+	cursor, err := config.ProductCollection.Find(context.TODO(), filter)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	defer cursor.Close(context.TODO())
+
+	// 4. Decode hasil query ke dalam slice struct Product
+	// Diinisialisasi dengan array kosong [] agar di JSON response tidak muncul nilai 'null'
+	var products []models.Product = []models.Product{}
+	if err := cursor.All(context.TODO(), &products); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal membaca data produk"})
+		return
+	}
+
+	// kirim response ke guest
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Berhasil mendapatkan Produk",
+		"data":    products,
 	})
 
 }
