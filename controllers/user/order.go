@@ -51,6 +51,7 @@ func CreateOrder(c *gin.Context) {
 
 		// Masukkan ke slice orderItems (untuk simpan di DB)
 		item.Price = product.Price
+		item.SellerID = product.SellerID
 		orderItems = append(orderItems, item)
 
 		// Masukkan ke slice midtransItems (untuk kirim ke Midtrans)

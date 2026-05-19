@@ -18,6 +18,7 @@ type OrderItem struct {
 	ProductID bson.ObjectID `bson:"product_id" json:"product_id"`
 	Quantity  int           `bson:"quantity" json:"quantity"`
 	Price     int           `bson:"price" json:"price"`
+	SellerID  bson.ObjectID `bson:"seller_id" json:"seller_id"`
 }
 
 type Order struct {
