@@ -39,6 +39,8 @@ func SetupProductRoutes(r *gin.Engine) {
 		sellerRoutes.POST("/product/image", seller.UploadImage)
 		sellerRoutes.DELETE("/product/:id", seller.DeleteProduct)
 		sellerRoutes.PUT("/product/:id", seller.EditProduct)
+		sellerRoutes.GET("/product/bySeller", seller.GetSellerOrder)
+
 	}
 
 	// AUTH ADMIN

@@ -211,3 +211,47 @@ func UploadImage(c *gin.Context) {
 		"image_url": imageUrl,
 	})
 }
+
+func GetSellerOrder(c *gin.Context) {
+
+	val, exists := c.Get("currentuser")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "sesi tidak ditemukan"})
+		return
+	}
+
+	id := val.(string)
+	slrID, err := bson.ObjectIDFromHex(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ID seller tidak valid"})
+		return
+	}
+
+	statusType := c.Query("status")
+	filter := bson.M{"items.seller_id": slrID}
+	if statusType == "ongoing" {
+		filter["status"] = bson.M{"$in": []string{"PENDING_PAYMENT", "PAID", "SHIPMENT"}}
+	} else if statusType == "completed" {
+		filter["status"] = bson.M{"$in": []string{"COMPLETED", "CANCELLED"}}
+	}
+
+	cursor, err := config.OrderCollection.Find(context.TODO(), filter)
+	// Tambahkan di bawah cursor, err := ...
+	if err != nil {
+		// PERBAIKAN: Jika database error, gunakan StatusInternalServerError (500) bukan BadRequest (400)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	defer cursor.Close(context.TODO())
+
+	var orders []models.Order = []models.Order{}
+	if err := cursor.All(context.TODO(), &orders); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "berhasil mengambil riwayat data",
+		"data":    orders,
+	})
+}
