@@ -9,8 +9,9 @@ Deskripsi singkat tentang projekmu di sini. Contoh: RESTful API e-commerce yang 
 - **Autentikasi & Otorisasi:** Registrasi dan login menggunakan JWT (JSON Web Token) dengan pembagian role (*Seller, Customer, admin*).
 - **Manajemen Produk (Seller):** CRUD produk, edit produk sendiri, proteksi akses, dan fitur unggah gambar produk.
 - **Pencarian Fleksibel (Guest/Customer):** Pencarian produk menggunakan kata kunci dinamis berbasis MongoDB Regex (Case-Insensitive).
+- **Pembayaran Midtrans(Customer):** Pembayaran menggunakan Midtrans 
 - **Sistem Pesanan Terintegrasi:** 
-  - *Customer* dapat melakukan checkout dan menyelesaikan pesanan (`completed`).
+  - *Customer* dapat melakukan checkout dan menyelesaikan pesanan dengan pembayaran.
   - *Admin* dapat melakukan update user to seller 
   - *Seller* dapat memantau riwayat pesanan yang masuk (*ongoing* atau *completed*).
 
@@ -24,6 +25,7 @@ Deskripsi singkat tentang projekmu di sini. Contoh: RESTful API e-commerce yang 
 | **Gin Gonic** | HTTP Web Framework (Routing & Middleware) |
 | **MongoDB Go Driver v2** | Database NoSQL untuk penyimpanan data |
 | **JWT (Go-JWT)** | Pengamanan token autentikasi |
+| **Midtrans** | Simulasi Pembayaran|
 
 ---
 
