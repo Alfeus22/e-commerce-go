@@ -1,6 +1,5 @@
-# 🛒 E-Commerce API (Go Backend)
-
-Deskripsi singkat tentang projekmu di sini. Contoh: RESTful API e-commerce yang dibangun menggunakan Go dan MongoDB, dirancang dengan arsitektur bersih untuk menangani manajemen produk, autentikasi multi-role (Customer, Seller, Courier), hingga sistem riwayat pesanan dinamis.
+# 🛒 E-Commerce API (Go Bacend)
+RESTful API e-commerce yang dibangun menggunakan Go dan MongoDB, dirancang dengan arsitektur bersih untuk menangani manajemen produk, autentikasi multi-role (Customer, Seller, Courier), hingga sistem riwayat pesanan dinamis.
 
 ---
 
